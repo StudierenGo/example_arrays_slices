@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 func main() {
@@ -12,26 +11,28 @@ func main() {
 		transaction := userTransaction()
 		transactions = append(transactions, transaction)
 
-		if !userAction() || transaction == 0 {
+		if transaction == 0 {
 			break
 		}
 	}
 
-	fmt.Println("Ваши транзакции: ", transactions)
+	total := fmt.Sprintf("Ваш итоговый баланс равен: %.2f", totalTransactions(transactions))
+	fmt.Println(total)
 }
 
 func userTransaction() float64 {
 	var transaction float64
-	fmt.Println("Введите транзакцию: ")
+	fmt.Println("Введите транзакцию (n для завершения): ")
 	fmt.Scan(&transaction)
 
 	return transaction
 }
 
-func userAction() bool {
-	var action string
-	fmt.Println("Хотите продолжить? (y/n) ")
-	fmt.Scan(&action)
+func totalTransactions(transactions []float64) float64 {
+	total := 0.0
+	for _, value := range transactions {
+		total += value
+	}
 
-	return strings.ToLower(action) == "y" || strings.ToLower(action) == "yes"
+	return total
 }
